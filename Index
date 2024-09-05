@@ -37,12 +37,11 @@
             cursor: pointer;
         }
 
-        /* 提示信息样式 */
         #external-browser-msg {
             margin-top: 20px;
             color: blue;
             font-size: 14px;
-            display: none;  /* 初始隐藏外部浏览器提示 */
+            display: none;  
         }
 
         /* 错误消息样式 */
