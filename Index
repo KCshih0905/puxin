@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>密碼保護頁面</title>
+    <style>
+        /* 表单容器样式 */
+        #password-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        /* 密码输入框样式 */
+        #password {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* 提交按钮样式 */
+        button {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* 提示信息样式 */
+        #external-browser-msg {
+            margin-top: 20px;
+            color: blue;
+            font-size: 14px;
+            display: none;  /* 初始隐藏外部浏览器提示 */
+        }
+
+        /* 错误消息样式 */
+        #error-message {
+            color: red;
+            margin-top: 10px;
+            display: none; /* 初始隐藏错误消息 */
+        }
+
+    </style>
+</head>
+<body>
+    <div id="password-form">
+        <form id="form">
+            <!-- 密码输入框 -->
+            <input type="password" id="password" placeholder="輸入密碼" onkeydown="checkEnter(event)">
+            <!-- 提交按钮 -->
+            <button type="button" onclick="checkPassword()">提交</button>
+            <!-- 错误消息 -->
+            <div id="error-message">密碼錯誤，請重試！</div>
+        </form>
+        <!-- 提示用户在外部浏览器中打开页面 -->
+        <div id="external-browser-msg">如果未自動跳轉網頁，請手動複製下列網址並使用其他瀏覽器查詢：
+            <br><a href="https://sites.google.com/view/puxin/%E6%B3%95%E5%B8%AB%E5%B0%88%E5%8D%80/zen" target="_blank">https://sites.google.com/view/puxin/法師專區/zen</a>
+        </div>
+    </div>
+
+    <script>
+        // 正确密码设置
+        var correctPassword = "2525";  // 您可以更改为想要的密码
+
+        // 当用户按下Enter键时触发密码检查
+        function checkEnter(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();  // 防止表单提交
+                checkPassword();  // 调用密码检查功能
+            }
+        }
+
+        // 密码检查逻辑
+        function checkPassword() {
+            var userPassword = document.getElementById("password").value;
+            var errorMessage = document.getElementById("error-message");
+            var externalBrowserMsg = document.getElementById("external-browser-msg");
+
+            // 检查用户是否输入密码
+            if (userPassword === "") {
+                errorMessage.style.display = "block";
+                errorMessage.textContent = "請輸入密碼";
+                externalBrowserMsg.style.display = "none";  // 隐藏外部浏览器提示
+                return;
+            }
+
+            // 检查密码是否正确
+            if (userPassword === correctPassword) {
+                // 尝试在新标签页或外部浏览器中打开页面
+                var newWindow = window.open('https://sites.google.com/view/puxin/%E6%B3%95%E5%B8%AB%E5%B0%88%E5%8D%80/zen', '_blank');
+
+                // 检查窗口是否成功打开（如果被阻止，newWindow 将为 null）
+                if (!newWindow) {
+                    // 如果窗口未能打开，显示提示信息
+                    externalBrowserMsg.style.display = "block";
+                }
+
+                errorMessage.style.display = "none";  // 隐藏错误消息
+            } else {
+                // 密码错误时显示错误消息
+                errorMessage.style.display = "block";
+                errorMessage.textContent = "密碼錯誤，請重試！";
+                externalBrowserMsg.style.display = "none"; // 隐藏外部浏览器提示
+            }
+        }
+    </script>
+</body>
+</html>
